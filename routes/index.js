@@ -1,9 +1,16 @@
-var express = require('express');
-var router = express.Router();
+const express = require('express');
+const router = express.Router();
+
+const Restaurants = require('../models/restaurants');
 
 /* GET home page. */
-router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
+router.get('/', (req, res, next) => {
+  Restaurants.find()
+    .then((restaurants) => {
+      console.log(restaurants[0].location.coordinates[0]);
+      res.render('index', { restaurants });
+    })
+    .catch(next);
 });
 
 module.exports = router;
